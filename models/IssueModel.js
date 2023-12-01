@@ -22,6 +22,10 @@ const IssueSchema = new mongoose.Schema(
       type: String,
       default: "Pending",
     },
+    userid: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,

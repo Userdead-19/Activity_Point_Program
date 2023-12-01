@@ -15,11 +15,21 @@ const newISsue = async (req, res) => {
   }
 };
 
-const getIssues = async (req, res) => {
+const getIssue = async (req, res) => {
   const { issueId } = req.body;
   try {
     const issue = await IssueSchema.findById(issueId);
     res.status(200).json({ message: "Issue fetched successfully", issue });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getUserIssues = async (req, res) => {
+  try {
+    const { userid } = req.body;
+    const Issues = await IssueSchema.find({ userid: userid });
+    res.status(200).json({ message: "Issues fetched successfully", Issues });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -44,4 +54,10 @@ const deleteIssue = async (req, res) => {
   }
 };
 
-module.exports = { newISsue, getIssues, updateIssue, deleteIssue };
+module.exports = {
+  newISsue,
+  getIssue,
+  updateIssue,
+  deleteIssue,
+  getUserIssues,
+};
