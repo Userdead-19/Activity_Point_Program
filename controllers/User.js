@@ -19,17 +19,17 @@ const CreateNewUser = async (req, res) => {
 
 const LoginUser = async (req, res) => {
   const { username, password } = req.body;
-  UserModel.findOne({ username: username }, (err, user) => {
+  UserModel.find({ username: username }, (err, user) => {
     if (err) {
       res.status(500).json({ message: "Internal server error" });
     } else {
       if (!user) {
         res.status(401).json({ message: "User not found" });
       } else {
-        if (user.password !== password) {
+        if (user[0].password !== password) {
           res.status(401).json({ message: "Incorrect password" });
         } else {
-          const token = jwt.sign({ userID: user._id }, "SANITATION");
+          const token = jwt.sign({ userID: user[0]._id }, "SANITATION");
           const auth = {
             Bearer: "User",
           };
