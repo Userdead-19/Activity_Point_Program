@@ -19,28 +19,24 @@ const CreateNewUser = async (req, res) => {
 
 const LoginUser = async (req, res) => {
   const { username, password } = req.body;
-  UserModel.find({ username: username }).then((result) => {
-    if (err) {
-      res.status(500).json({ message: "Internal server error" });
+  UserModel.find({ username: username }).then((user) => {
+    if (!user) {
+      res.status(401).json({ message: "User not found" });
     } else {
-      if (!user) {
-        res.status(401).json({ message: "User not found" });
+      if (user[0].password !== password) {
+        res.status(401).json({ message: "Incorrect password" });
       } else {
-        if (user[0].password !== password) {
-          res.status(401).json({ message: "Incorrect password" });
-        } else {
-          const token = jwt.sign({ userID: user[0]._id }, "SANITATION");
-          const auth = {
-            Bearer: "User",
-          };
-          res
-            .status(200)
-            .json(
-              { token: token },
-              { message: "Login successful" },
-              { Authentication: auth }
-            );
-        }
+        const token = jwt.sign({ userID: user[0]._id }, "SANITATION");
+        const auth = {
+          Bearer: "User",
+        };
+        res
+          .status(200)
+          .json(
+            { token: token },
+            { message: "Login successful" },
+            { Authentication: auth }
+          );
       }
     }
   });
