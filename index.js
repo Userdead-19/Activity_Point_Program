@@ -5,8 +5,8 @@ const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const app = express();
 
-const UserRoutes = require("../../../../routes/UserRoutes");
-const IssueRoutes = require("../../../../routes/IssueRoutes");
+const UserRoutes = require("./routes/UserRoutes");
+const IssueRoutes = require("./routes/IssueRoutes");
 
 app.use(morgan("dev"));
 
