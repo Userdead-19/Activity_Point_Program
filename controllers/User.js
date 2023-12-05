@@ -19,7 +19,7 @@ const CreateNewUser = async (req, res) => {
 
 const LoginUser = async (req, res) => {
   const { username, password } = req.body;
-  UserModel.find({ username: username }, (err, user) => {
+  UserModel.find({ username: username }).then((result) => {
     if (err) {
       res.status(500).json({ message: "Internal server error" });
     } else {
@@ -65,18 +65,13 @@ const GetUser = async (req, res) => {
 const UpdateUser = async (req, res) => {
   try {
     const { userID } = req.body;
-    UserModel.findByIdAndUpdate(
-      userID,
-      req.body,
-      { new: true },
-      (err, user) => {
-        if (err) {
-          res.status(500).json({ message: "Internal server error" });
-        } else {
-          res.status(200).json(user);
-        }
-      }
-    );
+    UserModel.findByIdAndUpdate(userID, req.body, { new: true })
+      .then((result) => {
+        res.status(200).json({ message: "User updated successfully", result });
+      })
+      .catch((err) => {
+        res.status(500).json({ message: "Internal server error" });
+      });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
