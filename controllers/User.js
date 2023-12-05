@@ -1,9 +1,9 @@
-const User = require("../models/UserModel");
+const UserModel = require("../models/UserModel");
 const jwt = require("jsonwebtoken");
 
 const CreateNewUser = async (req, res) => {
   const { username, email, password, name } = req.body;
-  const user = new User({
+  const user = new UserModel({
     username,
     email,
     password,
@@ -19,7 +19,7 @@ const CreateNewUser = async (req, res) => {
 
 const LoginUser = async (req, res) => {
   const { username, password } = req.body;
-  User.findOne({ username: username }, (err, user) => {
+  UserModel.findOne({ username: username }, (err, user) => {
     if (err) {
       res.status(500).json({ message: "Internal server error" });
     } else {
@@ -49,7 +49,7 @@ const LoginUser = async (req, res) => {
 const GetUser = async (req, res) => {
   try {
     const { userID } = req.body;
-    const user = await User.findById({ _id: userID });
+    const user = await UserModel.findById({ _id: userID });
 
     if (user) {
       res.status(200).json(user);
@@ -65,13 +65,18 @@ const GetUser = async (req, res) => {
 const UpdateUser = async (req, res) => {
   try {
     const { userID } = req.body;
-    User.findByIdAndUpdate(userID, req.body, { new: true }, (err, user) => {
-      if (err) {
-        res.status(500).json({ message: "Internal server error" });
-      } else {
-        res.status(200).json(user);
+    UserModel.findByIdAndUpdate(
+      userID,
+      req.body,
+      { new: true },
+      (err, user) => {
+        if (err) {
+          res.status(500).json({ message: "Internal server error" });
+        } else {
+          res.status(200).json(user);
+        }
       }
-    });
+    );
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
