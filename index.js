@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/testing", (res, res) => {
+app.get("/testing", (req, res) => {
   res.json([
     {
       pincode: "110001",
