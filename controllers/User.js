@@ -2,12 +2,13 @@ const UserModel = require("../models/UserModel");
 const jwt = require("jsonwebtoken");
 
 const CreateNewUser = async (req, res) => {
-  const { username, email, password, name } = req.body;
+  const { username, email, password, name, profilePicture } = req.body;
   const user = new UserModel({
     username,
     email,
     password,
     name,
+    profilePicture,
   });
   try {
     const newUser = await user.save();
