@@ -32,7 +32,10 @@ mongoose
   });
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.json({
+    message:
+      "this  is a private server made for our Activity point program in our college",
+  });
 });
 
 app.use("/user", UserRoutes);
