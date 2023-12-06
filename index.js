@@ -38,6 +38,29 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/testing", (res, res) => {
+  res.json([
+    {
+      pincode: "110001",
+      Status: "pending",
+      city: "Delhi",
+      IssueType: "WaterStagmentation",
+    },
+    {
+      pincode: "641045",
+      Status: "resolved",
+      city: "Coimbatore",
+      IssueType: "Garbage",
+    },
+    {
+      pincode: "641004",
+      Status: "pending",
+      city: "Coimbatore",
+      IssueType: "Garbage",
+    },
+  ]);
+});
+
 app.use("/user", UserRoutes);
 app.use("/issue", IssueRoutes);
 app.listen(port, () => {
