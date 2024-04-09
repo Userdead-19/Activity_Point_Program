@@ -27,7 +27,7 @@ const LoginUser = async (req, res) => {
       if (user.password !== password) {
         res.status(401).json({ message: "Incorrect password" });
       } else {
-        const token = jwt.sign({ userID: user[0]._id }, "SANITATION");
+        const token = jwt.sign({ userID: user._id }, "SANITATION");
         const auth = {
           Bearer: "User",
         };
