@@ -24,7 +24,7 @@ const LoginUser = async (req, res) => {
     if (!user) {
       res.status(401).json({ message: "User not found" });
     } else {
-      if (user[0].password !== password) {
+      if (user.password !== password) {
         res.status(401).json({ message: "Incorrect password" });
       } else {
         const token = jwt.sign({ userID: user[0]._id }, "SANITATION");
