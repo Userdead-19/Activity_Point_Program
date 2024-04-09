@@ -20,7 +20,7 @@ const CreateNewUser = async (req, res) => {
 
 const LoginUser = async (req, res) => {
   const { username, password } = req.body;
-  UserModel.find({ username: username }).then((user) => {
+  UserModel.findOne({ username: username }).then((user) => {
     if (!user) {
       res.status(401).json({ message: "User not found" });
     } else {
