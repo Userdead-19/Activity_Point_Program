@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', UserRouter);
-
+app.use('/issues', require('./Router/IssuesRouter'));
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
