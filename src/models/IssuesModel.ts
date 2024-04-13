@@ -33,7 +33,7 @@ const IssueSchema = new Schema<IIssue>({
 })
 
 
-const IssuesModel = model<IIssue>('Issues', IssueSchema);
+export const IssuesModel = model<IIssue>('Issues', IssueSchema);
 
 export const CreateIssue = async (IssueData: IIssue) => {
     const Issue = new IssuesModel(IssueData);

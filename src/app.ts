@@ -6,7 +6,8 @@ import mongoose from 'mongoose';
 import * as middlewares from './middlewares';
 import UserRouter from './Router/UserRouter';
 import MessageResponse from './interfaces/MessageResponse';
-
+import IssuesRouter from './Router/IssuesRouter';
+import AdminRouter from './Router/adminRouter';
 
 require('dotenv').config();
 const swaggerSpecs = require('../swaggerConfig');
@@ -33,8 +34,9 @@ app.get('/', (req, res) => {
   res.json(message);
 });
 
-app.use('/api', UserRouter);
-app.use('/issues', require('./Router/IssuesRouter'));
+app.use('/user', UserRouter);
+app.use('/issues', IssuesRouter);
+app.use('/admin', AdminRouter);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
