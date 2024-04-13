@@ -24,8 +24,7 @@ const limiter = rateLimit({
   standardHeaders: 'draft-6',
 
 })
-
-
+app.set('trust proxy', 1);
 app.use(morgan('dev'));
 app.use(helmet({
   contentSecurityPolicy: false,
