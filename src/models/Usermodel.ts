@@ -71,8 +71,15 @@ export const updateUser = async (user: IUser) => {
 };
 
 export const generateUser = async (userid: string) => {
-    const response = await UserModel.findOne({ clientid: userid })
-    return response;
+    try {
+        const response = await UserModel.findOne({ email: userid })
+        return response;
+
+    } catch (error) {
+        throw new Error(String(error));
+
+
+    }
 }
 
 export const AddIssues = async (user: IUser, issueId: Schema.Types.ObjectId) => {

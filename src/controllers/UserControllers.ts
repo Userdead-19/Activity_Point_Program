@@ -20,9 +20,13 @@ const generateJwtlocal = async (userid: string) => {
 }
 
 export const generateJwt = async (req: Request, res: Response) => {
-    const userData = await generateUser(req.params.userid);
-    const token = jsonwebtoken.sign({ user: userData }, process.env.JWT_SECRET!, { expiresIn: '1h' });
-    return token;
+    try {
+        const userData = await generateUser(req.body.identifier);
+        const token = jsonwebtoken.sign({ user: userData }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+        res.status(200).json({ token });
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
 }
 export const getUser = async (req: Request, res: Response) => {
     try {
