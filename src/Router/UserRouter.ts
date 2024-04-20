@@ -6,7 +6,7 @@ const router = Router();
 
 router.post('/user', createUser);
 
-router.post('/login', generateJwt);
+router.post('/login/:userid', generateJwt);
 
 router.get('/user/:username', getUser);
 

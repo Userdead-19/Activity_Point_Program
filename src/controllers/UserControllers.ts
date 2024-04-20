@@ -7,14 +7,20 @@ require('dotenv').config();
 export const createUser = async (req: Request, res: Response) => {
     try {
         const user = await CreateUser(req.body);
-        res.status(200).json(user);
+        const jwt = await generateJwtlocal(user.clientid);
+        res.status(201).json({ user, token: jwt });
     } catch (error: any) {
         res.status(400).json({ error: error.message });
     }
 };
-
-export const generateJwt = async (userid: string) => {
+const generateJwtlocal = async (userid: string) => {
     const userData = await generateUser(userid);
+    const token = jsonwebtoken.sign({ user: userData }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+    return token;
+}
+
+export const generateJwt = async (req: Request, res: Response) => {
+    const userData = await generateUser(req.params.userid);
     const token = jsonwebtoken.sign({ user: userData }, process.env.JWT_SECRET!, { expiresIn: '1h' });
     return token;
 }
