@@ -22,7 +22,6 @@ const limiter = rateLimit({
   message: 'Too many requests, please try again later',
   validate: true,
   standardHeaders: 'draft-6',
-
 })
 app.set('trust proxy', 1);
 app.use(morgan('dev'));

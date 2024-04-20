@@ -1,4 +1,4 @@
-import { CreateUser, GetUserByUsername, LoginUser, updateUser } from '../models/Usermodel';
+import { CreateUser, GetUserByUsername, generateUser, updateUser } from '../models/Usermodel';
 import { Request, Response } from 'express';
 import * as jsonwebtoken from 'jsonwebtoken';
 require('dotenv').config();
@@ -13,20 +13,11 @@ export const createUser = async (req: Request, res: Response) => {
     }
 };
 
-export const loginUser = async (req: Request, res: Response) => {
-    try {
-        const user = await LoginUser(req.body.username, req.body.password);
-        if (!user) {
-            res.status(400).json({ error: 'Invalid username or password' });
-            return;
-        }
-        const token = jsonwebtoken.sign({ id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '24h' });
-        res.status(200).json({ user: user, token: token });
-    } catch (error: any) {
-        res.status(400).json({ error: error.message });
-    }
-};
-
+export const generateJwt = async (userid: string) => {
+    const userData = await generateUser(userid);
+    const token = jsonwebtoken.sign({ user: userData }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+    return token;
+}
 export const getUser = async (req: Request, res: Response) => {
     try {
         const user = await GetUserByUsername(req.params.username);

@@ -2,7 +2,8 @@ import mongoose, { Schema, Document } from "mongoose";
 import * as bcrypt from "bcrypt";
 
 export interface IUser extends Document {
-    name: string;
+    FirstName: string;
+    LastName: string;
     email: string;
     username: string;
     profilePicture: string;
@@ -12,20 +13,18 @@ export interface IUser extends Document {
     },
     Issues: Schema.Types.ObjectId[];
     GreenPoints: number;
+    clientid: string;
 }
 
-const UserSchema = new Schema({
-    name: { type: String, required: true },
+const UserSchema = new Schema<IUser>({
+    FirstName: { type: String, required: true },
+    LastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
-    profilePicture: { type: String, required: true },
-    authentication: {
-        password: { type: String, required: true, select: false },
-        salt: { type: String, required: true, select: false }
-
-    },
+    profilePicture: { type: String },
     Issues: [{ type: Schema.Types.ObjectId, ref: 'Issue' }],
-    GreenPoints: { type: Number, default: 0 }
+    GreenPoints: { type: Number, default: 0 },
+    clientid: { type: String, required: true },
 });
 
 
@@ -33,16 +32,10 @@ const UserModel = mongoose.model<IUser>('User', UserSchema);
 
 export const CreateUser = async (user: Record<string, any>) => {
     try {
-        const { password, ...userDataWithoutPassword } = user;
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
 
+        const userData = user;
         const newUser = new UserModel({
-            ...userDataWithoutPassword,
-            authentication: {
-                password: hashedPassword,
-                salt: salt,
-            },
+            ...userData
         });
 
         return await newUser.save();
@@ -77,18 +70,10 @@ export const updateUser = async (user: IUser) => {
     }
 };
 
-export const LoginUser = async (username: string, password: string) => {
-    try {
-        const user = await UserModel.findOne({ username: username }).select('+authentication.password +authentication.salt');
-        if (!user) return null;
-        console.log(user);
-        const isPasswordValid = await bcrypt.compare(password, user.authentication.password);
-        if (!isPasswordValid) return null;
-        return user;
-    } catch (error) {
-        return null;
-    }
-};
+export const generateUser = async (userid: string) => {
+    const response = await UserModel.findOne({ clientid: userid })
+    return response;
+}
 
 export const AddIssues = async (user: IUser, issueId: Schema.Types.ObjectId) => {
     try {

@@ -13,6 +13,7 @@ export interface IIssue extends Document {
     IssueLongitude: number;
     IssueContact: string;
     IssuePincode: string;
+    ForwardedByPeople: string[];
 }
 
 const IssueSchema = new Schema<IIssue>({
@@ -28,6 +29,7 @@ const IssueSchema = new Schema<IIssue>({
     IssueLatitude: { type: Number, required: true },
     IssueLongitude: { type: Number, required: true },
     IssueContact: { type: String },
+    ForwardedByPeople: { type: [String] }
 }, {
     timestamps: true
 })
