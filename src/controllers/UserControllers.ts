@@ -7,7 +7,7 @@ require('dotenv').config();
 export const createUser = async (req: Request, res: Response) => {
     try {
         const user = await CreateUser(req.body);
-        const jwt = await generateJwtlocal(user.clientid);
+        const jwt = await generateJwtlocal(user.email);
         res.status(201).json({ user, token: jwt });
     } catch (error: any) {
         res.status(400).json({ error: error.message });
