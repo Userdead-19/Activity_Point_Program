@@ -1,24 +1,26 @@
 import { CreateIssueController, GetAllIssuesController, GetIssueByIdController, GetIssuesByLocationController, UpdateIssueController, UpdateStatusController, GetIssuesByPincodeController, GetIssuesByStatusController, GetIssuesByTypeController } from '../controllers/IssueController';
 import { Router } from 'express';
+import { checkToken } from '../controllers/AuthController';
+
 
 const router = Router();
 
-router.post('/create', CreateIssueController);
+router.post('/create', checkToken, CreateIssueController);
 
-router.get('/all', GetAllIssuesController);
+router.get('/all', checkToken, GetAllIssuesController);
 
-router.get('/location/:location', GetIssuesByLocationController);
+router.get('/location/:location', checkToken, GetIssuesByLocationController);
 
-router.get('/pincode/:pincode', GetIssuesByPincodeController);
+router.get('/pincode/:pincode', checkToken, GetIssuesByPincodeController);
 
-router.get('/status/:status', GetIssuesByStatusController);
+router.get('/status/:status', checkToken, GetIssuesByStatusController);
 
-router.get('/type/:type', GetIssuesByTypeController);
+router.get('/type/:type', checkToken, GetIssuesByTypeController);
 
-router.get('/:id', GetIssueByIdController);
+router.get('/:id', checkToken, GetIssueByIdController);
 
-router.put('/:id', UpdateIssueController);
+router.put('/:id', checkToken, UpdateIssueController);
 
-router.put('/:id/status', UpdateStatusController);
+router.put('/:id/status', checkToken, UpdateStatusController);
 
 export default router;
